@@ -100,7 +100,7 @@ _HTML = """<!DOCTYPE html>
   .canary { width: 100%; max-width: 280px; height: auto; display: block; }
   .content { min-width: 0; }
   .logo { margin-bottom: 1.25rem; display: inline-flex; }
-  .logo img { height: 24px; width: auto; display: block; }
+  .logo img { height: 32px; width: auto; display: block; }
   .badge {
     display: inline-flex;
     align-items: center;
@@ -203,7 +203,7 @@ _HTML = """<!DOCTYPE html>
 <main class="card">
   <img class="canary" src="/static/captain-canary.png" alt="Captain Canary, the Harness mascot">
   <div class="content">
-    <div class="logo"><img src="/static/harness-logo.jpeg" alt="Harness"></div>
+    <div class="logo"><img src="/static/harness-logo.png" alt="Harness"></div>
     <div class="badge">Deployment successful</div>
     <h1>Hey there! Shipped by a <span class="accent">Harness</span> pipeline.</h1>
     <p class="lead">This FastAPI service was just rolled out to Amazon ECS by a Harness Continuous Delivery pipeline.</p>
