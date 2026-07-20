@@ -1,4 +1,4 @@
-"""Tests for /health, /readiness, /info, and the root endpoint."""
+"""Tests for /health, /readiness, /info, and the root landing endpoint."""
 
 
 def test_health_returns_ok(client):
@@ -37,7 +37,16 @@ def test_info_uptime_is_non_negative_number(client):
     assert body["uptime_seconds"] >= 0
 
 
-def test_root_lists_all_endpoints(client):
-    body = client.get("/").json()
-    for path in ("/health", "/readiness", "/info", "/metrics", "/items"):
-        assert path in body["endpoints"]
+def test_root_returns_html_landing(client):
+    r = client.get("/")
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("text/html")
+    for marker in ("Captain Canary", "captain-canary.png", "Harness"):
+        assert marker in r.text
+
+
+def test_static_captain_canary_served(client):
+    r = client.get("/static/captain-canary.png")
+    assert r.status_code == 200
+    assert r.headers["content-type"] == "image/png"
+    assert r.content[:8] == b"\x89PNG\r\n\x1a\n"
