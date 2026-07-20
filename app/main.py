@@ -1,14 +1,16 @@
 """FastAPI application factory."""
 
 import os
+from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.metrics import init_app_info
-from app.routers import items, observability
+from app.routers import items, landing, observability
 
-APP_NAME = os.getenv("APP_NAME", "fastapi-metrics-demo")
+APP_NAME = os.getenv("APP_NAME", "fastapi-observability-starter")
 APP_VERSION = os.getenv("APP_VERSION", "1.0.0")
 
 
@@ -24,7 +26,6 @@ def create_app() -> FastAPI:
     init_app_info(name=APP_NAME, version=APP_VERSION)
 
     # HTTP metrics: auto request count, duration histogram, size, in-progress gauge.
-    # /metrics, /health, /readiness are excluded to avoid noisy self-observation.
     Instrumentator(
         should_group_status_codes=False,
         should_ignore_untemplated=True,
@@ -33,24 +34,14 @@ def create_app() -> FastAPI:
         application, endpoint="/metrics", include_in_schema=False
     )
 
-    # Routers
+    # Static assets (Captain Canary lives here)
+    static_dir = Path(__file__).parent / "static"
+    application.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
+    # Routers — landing first so it owns `/`
+    application.include_router(landing.router)
     application.include_router(observability.router)
     application.include_router(items.router)
-
-    @application.get("/", tags=["meta"])
-    def root() -> dict:
-        return {
-            "app": APP_NAME,
-            "version": APP_VERSION,
-            "docs": "/docs",
-            "endpoints": [
-                "/health",
-                "/readiness",
-                "/info",
-                "/metrics",
-                "/items",
-            ],
-        }
 
     return application
 
