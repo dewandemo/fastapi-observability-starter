@@ -1,0 +1,19 @@
+launchType: FARGATE
+serviceName: fastapi-observability-starter
+desiredCount: 1
+
+networkConfiguration:
+  awsvpcConfiguration:
+    subnets:
+      - subnet-921d17fa
+      - subnet-51a8e82b
+    securityGroups:
+      - sg-0d5d25d070b287c42
+    assignPublicIp: ENABLED
+
+deploymentConfiguration:
+  maximumPercent: 200
+  minimumHealthyPercent: 50
+  deploymentCircuitBreaker:
+    enable: true
+    rollback: false
