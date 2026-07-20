@@ -13,6 +13,17 @@ containerDefinitions:
     portMappings:
       - containerPort: 8080
         protocol: tcp
+    environment:
+      - name: HARNESS_PIPELINE_ID
+        value: <+pipeline.identifier>
+      - name: HARNESS_EXECUTION_SEQ
+        value: <+pipeline.sequenceId>
+      - name: HARNESS_IMAGE_TAG
+        value: <+artifacts.primary.tag>
+      - name: HARNESS_DEPLOYED_AT
+        value: <+pipeline.startTs>
+      - name: HARNESS_EXECUTION_URL
+        value: <+pipeline.executionUrl>
     logConfiguration:
       logDriver: awslogs
       options:
