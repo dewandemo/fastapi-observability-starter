@@ -204,7 +204,7 @@ _HTML = """<!DOCTYPE html>
   <img class="canary" src="/static/captain-canary.png" alt="Captain Canary, the Harness mascot">
   <div class="content">
     <div class="logo"><img src="/static/harness-logo.png" alt="Harness"></div>
-    <div class="badge">Deployment successful</div>
+    <div class="badge">Deployed via trigger</div>
     <h1>Hey there! Shipped by a <span class="accent">Harness</span> pipeline.</h1>
     <p class="lead">This FastAPI service was just rolled out to Amazon ECS by a Harness Continuous Delivery pipeline.</p>
     <dl>
